@@ -1,0 +1,25 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Base title="Writing — Akshay Narayanan">
+  <h1>Writing</h1>
+  <p class="lede">Essays and notes. Some live here, others were published elsewhere.</p>
+
+  <ul class="articles">
+    {posts.map((p) => (
+      <li>
+        <span class="title">
+          {p.data.external
+            ? <a href={p.data.external} target="_blank" rel="noopener">{p.data.title}</a>
+            : <a href={`/blog/${p.slug}`}>{p.data.title}</a>}
+          {p.data.external && <> <span class="outlet">— external</span></>}
+        </span>
+        <span class="meta">{p.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}</span>
+      </li>
+    ))}
+  </ul>
+</Base>

@@ -1,0 +1,34 @@
+---
+import "../styles/global.css";
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Akshay Narayanan" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site">
+      <a href="/" class="brand">Akshay Narayanan</a>
+      <nav>
+        <a href="/">About</a>
+        <a href="/articles">Writing</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">
+      © {new Date().getFullYear()} Akshay Narayanan
+    </footer>
+  </body>
+</html>

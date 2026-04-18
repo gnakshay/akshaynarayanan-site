@@ -1,0 +1,106 @@
+---
+import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+---
+<Base title="Akshay Narayanan">
+  <div class="hero">
+    <img src="/headshot.jpg" alt="Akshay Narayanan" class="headshot" />
+    <div>
+      <h1>Akshay Narayanan</h1>
+      <p class="tagline">Researcher, consultant, and writer.</p>
+    </div>
+  </div>
+
+  <p>
+    I'm a researcher at <a href="https://connects.catalyst.harvard.edu/Profiles/display/Person/66930" target="_blank" rel="noopener">Massachusetts General Hospital</a>, a consultant at
+    <a href="https://raisingvoices.org/" target="_blank" rel="noopener">Raising Voices</a>, and a freelance writer. I lead research, program design,
+    and writing projects in global mental health, child protection, and
+    scientific progress.
+  </p>
+  <p>
+    I hold a master's in public health from Harvard and am a fellow at the
+    Mercatus Center. Before this, I managed a non-profit accelerator at
+    Guardians of Dreams in Bengaluru, India. I'm currently based in Boston,
+    Massachusetts.
+  </p>
+  <p><a href="/CV_Akshay_Narayanan.pdf" target="_blank" rel="noopener">Download CV (PDF) →</a></p>
+
+  <h2>Projects</h2>
+  <ul class="projects">
+    <li>
+      Research on psychoeducation interventions to keep young people engaged
+      in treatment for opioid use disorders
+      <span class="org">@ Massachusetts General Hospital</span>
+    </li>
+    <li>
+      Designing a fellowship for young leaders building violence prevention
+      programs in schools in the Global South
+      <span class="org">@ Raising Voices &amp; Coalition for Good Schools</span>
+    </li>
+    <li>
+      Teaching Assistant for How to Tell A Story: Visions &amp; Explorations
+      in Ethnography
+      <span class="org">@ Harvard College</span>
+    </li>
+    <li>
+      Writing for <a href="https://indevelopmentmag.com/issues/" target="_blank" rel="noopener">In Development</a> on
+      reimagining treatment for opioid use disorders in India
+    </li>
+    <li>
+      Writing for <a href="https://studentreview.hks.harvard.edu/" target="_blank" rel="noopener">HKS Policy Review</a> on
+      why we must focus our violence prevention efforts on boys in
+      classrooms in India
+    </li>
+  </ul>
+
+  <h2>Recent writing</h2>
+  <ul class="articles">
+    {posts.map((p) => (
+      <li>
+        <span class="title">
+          {p.data.external
+            ? <a href={p.data.external} target="_blank" rel="noopener">{p.data.title}</a>
+            : <a href={`/blog/${p.slug}`}>{p.data.title}</a>}
+        </span>
+        <span class="meta">{p.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}</span>
+      </li>
+    ))}
+  </ul>
+  <p><a href="/articles">All writing →</a></p>
+
+  <h2 id="contact">Contact</h2>
+  <p>
+    Email: <a href="mailto:akshaygn@hsph.harvard.edu">akshaygn@hsph.harvard.edu</a><br />
+    Twitter: <a href="https://x.com/akshaygn01" target="_blank" rel="noopener">@akshaygn01</a><br />
+    LinkedIn: <a href="https://www.linkedin.com/in/akshaygrn/" target="_blank" rel="noopener">akshaygrn</a>
+  </p>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .headshot {
+    width: 160px;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+  .hero h1 { margin: 0 0 0.25rem; }
+  .hero .tagline { margin: 0; color: var(--muted); font-size: 1.05rem; }
+
+  @media (max-width: 520px) {
+    .hero { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .headshot { width: 140px; }
+  }
+</style>
