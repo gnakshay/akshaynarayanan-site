@@ -16,7 +16,6 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft))
           {p.data.external
             ? <a href={p.data.external} target="_blank" rel="noopener">{p.data.title}</a>
             : <a href={`/blog/${p.slug}`}>{p.data.title}</a>}
-          {p.data.external && <> <span class="outlet">— external</span></>}
         </span>
         <span class="meta">{p.data.pubDate.toLocaleDateString("en-US", { year: "numeric", month: "short" })}</span>
       </li>
